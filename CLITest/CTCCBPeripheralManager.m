@@ -5,11 +5,11 @@
 //  Created by Bill Thorgerson on 17/03/26.
 // And some more here
 
-#import "ScanTest.h"
+#import "CTCCBPeripheralManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ScanTest ()
+@interface CTCCBPeripheralManager ()
 // Private property (makes publicData internally readwrite)
 @property (nonatomic, strong, readwrite) NSString *peripheralToFind;
 @property (nonatomic, strong, readwrite) NSString *serviceDescription;
@@ -18,7 +18,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation ScanTest
+@implementation CTCCBPeripheralManager
+
+- (void)scanForPeripheral:(CTCCBPeripheralDevice)device{
+    NSString* peripheralName;
+    NSString* serviceDescription;
+    NSString* characteristicDescription;
+    
+    switch(device){
+        case JDY_23:
+            peripheralName = @"JDY-23";
+            serviceDescription = @"FFE0";
+            characteristicDescription = @"FFE1";
+            break;
+            
+        default:
+            break;
+    }
+    
+    if(peripheralName){
+        [self scanForPeripheral:peripheralName withService: serviceDescription andCharacteristic:characteristicDescription];
+    }
+}
 
 - (void)scanForPeripheral:(NSString *)name withService:(NSString *)serviceDescription andCharacteristic:(NSString *)characteristicDescription{
     self.peripheralToFind = name;
@@ -71,9 +92,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (central.state == CBManagerStatePoweredOn) {
         // Scan for all devices (withServices: nil)
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-        NSLog(@"Bluetooth is powered on AND authorized! Scanning for %@...",  self.peripheralToFind);
     } else {
-        NSLog(@"Bluetooth is not powered on or authorized.");
+        //NSLog(@"Bluetooth is not powered on or authorized.");
+        if(self.discovered){
+            NSError *error = [NSError errorWithDomain:@"chetch" code:101 userInfo:nil];
+            self.discovered(self, false, error);
+        }
     }
 }
 
@@ -82,8 +106,6 @@ NS_ASSUME_NONNULL_BEGIN
  didDiscoverPeripheral:(CBPeripheral *)peripheral
      advertisementData:(NSDictionary<NSString *,id> *)advertisementData
                   RSSI:(NSNumber *)RSSI {
-    
-    NSLog(@"Discovered: %@, RSSI: %@", peripheral.name, RSSI);
     
     BOOL found = false;
     if (peripheral.name && [peripheral.name caseInsensitiveCompare:self.peripheralToFind] == NSOrderedSame) {
@@ -95,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.discovered(self, found, nil);
         }
         
-        NSLog(@"Connecting %@...", self.peripheral.name);
+        //NSLog(@"Connecting %@...", self.peripheral.name);
         [self.centralManager connectPeripheral:self.peripheral options:nil];
     }
 }
@@ -118,9 +140,6 @@ NS_ASSUME_NONNULL_END
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     
-    NSLog(@"Failed to connect to peripheral: %@. Error: %@", peripheral.name, error.localizedDescription);
-    // You may attempt to reconnect or handle the error appropriately
-    
     if(self.connected){
         self.connected(self, false, error);
     }
@@ -135,20 +154,14 @@ NS_ASSUME_NONNULL_END
 //Peripheral delegate methods
 - (void)peripheral:(CBPeripheral *) peripheral didDiscoverServices:(NSError *) error {
     if (error) {
-        NSLog(@"Error discovering services: %@", [error localizedDescription]);
         if(self.servicesDiscovered){
             self.servicesDiscovered(self, false, error);
         }
         return;
     }
     
-    
-    NSLog(@"Discovered %@ services", peripheral.name);
-    
     BOOL found = false;
     for (CBService *service in peripheral.services) {
-        NSLog(@"Discovered service: %@", service.UUID);
-        
         if(service.UUID.description && [self.serviceDescription caseInsensitiveCompare:service.UUID.description] == NSOrderedSame){
             NSLog(@"Found service!");
             found = true;
@@ -167,7 +180,6 @@ NS_ASSUME_NONNULL_END
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     if (error) {
-        NSLog(@"Error discovering characteristics: %@", [error localizedDescription]);
         self.isReady = false;
         if(self.ready){
             self.ready(self, false, error);
@@ -178,10 +190,7 @@ NS_ASSUME_NONNULL_END
     
     BOOL found = false;
     for (CBCharacteristic *characteristic in service.characteristics) {
-        NSLog(@"Discovered characteristic: %@", characteristic.UUID);
-        
         if(characteristic.UUID.description && [self.characteristicDescription caseInsensitiveCompare:characteristic.UUID.description] == NSOrderedSame){
-            NSLog(@"Found characterstic!");
             found = true;
             self.characteristic = characteristic;
             break;

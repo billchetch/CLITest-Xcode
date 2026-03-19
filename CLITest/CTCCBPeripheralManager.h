@@ -10,13 +10,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ScanTest : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
+typedef NS_ENUM(uint8_t, CTCCBPeripheralDevice) {
+    NOT_SPECIFIED = 0,
+    JDY_23 = 1,
+};
 
-typedef void (^PeripheralEvent)(ScanTest* sender, BOOL success, NSError  * _Nullable error);
+@interface CTCCBPeripheralManager : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
+
+typedef void (^PeripheralEvent)(CTCCBPeripheralManager* sender, BOOL success, NSError  * _Nullable error);
 
 - (void)stopScanning;
 
 - (void)scanForPeripheral:(NSString *)name withService:(NSString *)serviceDescription andCharacteristic:(NSString *)characteristicDescription;
+
+- (void)scanForPeripheral:(CTCCBPeripheralDevice)device;
+
 
 - (void)disconnectPeripheral;
 

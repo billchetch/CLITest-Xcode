@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "DyLibTest/TestClass.h"
-#import "ScanTest.h"
+#import "CTCCBPeripheralManager.h"
 
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
-        ScanTest *scanTest = [[ScanTest alloc] init];
-        scanTest.discovered = ^void(ScanTest* sender, BOOL found, NSError *error){
+        CTCCBPeripheralManager *pmgr = [[CTCCBPeripheralManager alloc] init];
+        pmgr.discovered = ^void(CTCCBPeripheralManager* sender, BOOL found, NSError *error){
             if(found){
                 NSLog(@"FOUND: %@", sender.peripheral.name);
             } else {
@@ -22,15 +22,15 @@ int main(int argc, const char * argv[]) {
             }
         };
         
-        scanTest.connected = ^void(ScanTest *sender, BOOL connected, NSError *error){
+        pmgr.connected = ^void(CTCCBPeripheralManager *sender, BOOL connected, NSError *error){
             NSLog(@"CONNECTED: %@", connected ? @"YES" : @"NO");
         };
         
-        scanTest.disconnected = ^void(ScanTest *sender, BOOL success, NSError *error){
+        pmgr.disconnected = ^void(CTCCBPeripheralManager *sender, BOOL success, NSError *error){
             NSLog(@"DISCONNECTED: %@", success ? @"YES" : @"NO");
         };
         
-        scanTest.ready =^void(ScanTest* sender, BOOL ready, NSError *error){
+        pmgr.ready =^void(CTCCBPeripheralManager *sender, BOOL ready, NSError *error){
             if(ready){
                 NSLog(@"Ready for writing!");
                 uint8_t bytes[] = {0x61, 0x62, 0x63};
@@ -42,21 +42,14 @@ int main(int argc, const char * argv[]) {
             }
         };
         
-        NSString *peripheralName = @"JDY-23";
-        NSString *serviceDescription = @"FFE0";
-        NSString *characteristicDescription = @"FFE1";
+        CTCCBPeripheralDevice device = JDY_23;
         
-        //NSLog(@"Press ENTER to search for %@", peripheralName);
-        //getchar();
-        
-        [scanTest scanForPeripheral:peripheralName withService:serviceDescription andCharacteristic:characteristicDescription];
+        [pmgr scanForPeripheral:device];
         
         NSLog(@"Press ENTER to disconnect");
         getchar();
-        [scanTest disconnectPeripheral];
+        [pmgr disconnectPeripheral];
         
-        NSLog(@"Press ENTER to end");
-        getchar();
         
     }
     return EXIT_SUCCESS;
