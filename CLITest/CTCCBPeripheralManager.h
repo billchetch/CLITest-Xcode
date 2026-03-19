@@ -1,6 +1,6 @@
 //
-//  ScanTest.h
-//  CLITest
+//  CTCCBPeripheralManager.h
+//
 //
 //  Created by Bill Thorgerson on 17/03/26.
 //  Noodled again and again. Does this work?
@@ -13,18 +13,19 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(uint8_t, CTCCBPeripheralDevice) {
     NOT_SPECIFIED = 0,
     JDY_23 = 1,
+    JDY_31 = 2,
 };
 
 @interface CTCCBPeripheralManager : NSObject <CBCentralManagerDelegate, CBPeripheralDelegate>
 
-typedef void (^PeripheralEvent)(CTCCBPeripheralManager* sender, BOOL success, NSError  * _Nullable error);
+typedef void (^CTCCBPeripheralEvent)(CTCCBPeripheralManager* sender, BOOL success, NSError  * _Nullable error);
+typedef void (^CTCCBIOEvent)(CTCCBPeripheralManager* sender, BOOL success, NSData * _Nullable data, NSError  * _Nullable error);
 
 - (void)stopScanning;
 
 - (void)scanForPeripheral:(NSString *)name withService:(NSString *)serviceDescription andCharacteristic:(NSString *)characteristicDescription;
 
 - (void)scanForPeripheral:(CTCCBPeripheralDevice)device;
-
 
 - (void)disconnectPeripheral;
 
@@ -33,11 +34,13 @@ typedef void (^PeripheralEvent)(CTCCBPeripheralManager* sender, BOOL success, NS
 - (int)write:(uint8_t*)data ofLength:(int)length withResponse:(BOOL)respond;
 
 //@property (nonatomic, copy) void (^scanListener)(BOOL success);
-@property (nonatomic, copy) PeripheralEvent discovered;
-@property (nonatomic, copy) PeripheralEvent connected;
-@property (nonatomic, copy) PeripheralEvent disconnected;
-@property (nonatomic, copy) PeripheralEvent servicesDiscovered;
-@property (nonatomic, copy) PeripheralEvent ready;
+@property (nonatomic, copy) CTCCBPeripheralEvent discovered;
+@property (nonatomic, copy) CTCCBPeripheralEvent connected;
+@property (nonatomic, copy) CTCCBPeripheralEvent disconnected;
+@property (nonatomic, copy) CTCCBPeripheralEvent servicesDiscovered;
+@property (nonatomic, copy) CTCCBPeripheralEvent ready;
+@property (nonatomic, copy) CTCCBIOEvent dataReceived;
+
 
 
 @property (nonatomic, strong) CBCentralManager *centralManager;

@@ -193,6 +193,11 @@ NS_ASSUME_NONNULL_END
         if(characteristic.UUID.description && [self.characteristicDescription caseInsensitiveCompare:characteristic.UUID.description] == NSOrderedSame){
             found = true;
             self.characteristic = characteristic;
+            CBCharacteristicProperties properties = self.characteristic.properties;
+            if((properties & CBCharacteristicPropertyNotify) == CBCharacteristicPropertyNotify){
+                //NOTE: this may not work first time, m
+                [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            }
             break;
         }
     }
@@ -204,7 +209,22 @@ NS_ASSUME_NONNULL_END
     
 }
 
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (error) {
+        //NSLog(@"Error reading characteristic: %@", [error localizedDescription]);
+        if(self.dataReceived){
+            NSError *error = [NSError errorWithDomain:@"chetch" code:102 userInfo:nil];
+            self.dataReceived(self, false, nil, error);
+        }
+        return;
+    }
 
+    // Access the raw bytes
+    NSData *data = characteristic.value;
+    if(data.length && self.dataReceived){
+        self.dataReceived(self, true, data, error);
+    }
+}
 NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END

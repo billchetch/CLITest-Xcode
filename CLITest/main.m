@@ -34,11 +34,17 @@ int main(int argc, const char * argv[]) {
             if(ready){
                 NSLog(@"Ready for writing!");
                 uint8_t bytes[] = {0x61, 0x62, 0x63};
-                for(int i = 0; i < 10; i++){
-                    [sender write: bytes ofLength: sizeof(bytes) withResponse: false];
-                }
+                [sender write: bytes ofLength: sizeof(bytes) withResponse: false];
             } else {
                 NSLog(@"Ready failed!");
+            }
+        };
+        
+        pmgr.dataReceived = ^void(CTCCBPeripheralManager *sender, BOOL success, NSData *data, NSError *error){
+            if(success){
+                NSLog(@"Data received! %d bytes", (int)data.length);
+            } else {
+                NSLog(@"Data receive failed!");
             }
         };
         

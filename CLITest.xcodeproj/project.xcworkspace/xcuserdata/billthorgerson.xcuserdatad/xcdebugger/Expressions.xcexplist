@@ -6,7 +6,7 @@
          contextName = "__main_block_invoke_4:main.m">
          <PersistentStrings>
             <PersistentString
-               value = "scanTest">
+               value = "(sender.characteristic.properties &amp; CBCharacteristicPropertyNotify)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
