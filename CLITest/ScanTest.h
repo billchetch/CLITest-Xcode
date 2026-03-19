@@ -3,7 +3,7 @@
 //  CLITest
 //
 //  Created by Bill Thorgerson on 17/03/26.
-//
+//  Noodled again and again.
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
