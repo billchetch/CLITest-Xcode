@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "__main_block_invoke_4:main.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "scanTest">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__main_block_invoke:main.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "st.peripheral">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ScanTest peripheral:didDiscoverServices:]:ScanTest.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self.serviceName isEqualToString:service.UUID.description ]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

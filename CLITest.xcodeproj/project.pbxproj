@@ -6,19 +6,44 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AC89796C2F69220E00CCF9FB /* libDyLibTest.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC89796A2F6921DC00CCF9FB /* libDyLibTest.dylib */; };
+		AC8979712F69B6E000CCF9FB /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC8979702F69B6E000CCF9FB /* CoreBluetooth.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC8979662F6921DC00CCF9FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC8979432F691FC200CCF9FB /* DyLibTest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ACCFB9A92F67058E005F19C0;
+			remoteInfo = DyLibTest;
+		};
+		AC8979692F6921DC00CCF9FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC8979432F691FC200CCF9FB /* DyLibTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ACCFB9AA2F67058E005F19C0;
+			remoteInfo = DyLibTest;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		ACB979522F66FA4C0051339D /* CopyFiles */ = {
+		ACB979522F66FA4C0051339D /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AC8979432F691FC200CCF9FB /* DyLibTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DyLibTest.xcodeproj; path = ../DyLibTest/DyLibTest.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AC8979702F69B6E000CCF9FB /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		ACB979542F66FA4C0051339D /* CLITest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CLITest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -35,16 +60,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC8979712F69B6E000CCF9FB /* CoreBluetooth.framework in Frameworks */,
+				AC89796C2F69220E00CCF9FB /* libDyLibTest.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC89794E2F691FC200CCF9FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC89796A2F6921DC00CCF9FB /* libDyLibTest.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC89796B2F69220E00CCF9FB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AC8979702F69B6E000CCF9FB /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ACB9794B2F66FA4C0051339D = {
 			isa = PBXGroup;
 			children = (
+				AC8979432F691FC200CCF9FB /* DyLibTest.xcodeproj */,
 				ACB979562F66FA4C0051339D /* CLITest */,
+				AC89796B2F69220E00CCF9FB /* Frameworks */,
 				ACB979552F66FA4C0051339D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,11 +111,12 @@
 			buildPhases = (
 				ACB979502F66FA4C0051339D /* Sources */,
 				ACB979512F66FA4C0051339D /* Frameworks */,
-				ACB979522F66FA4C0051339D /* CopyFiles */,
+				ACB979522F66FA4C0051339D /* Copy Files */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AC8979672F6921DC00CCF9FB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				ACB979562F66FA4C0051339D /* CLITest */,
@@ -108,12 +154,28 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ACB979552F66FA4C0051339D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AC89794E2F691FC200CCF9FB /* Products */;
+					ProjectRef = AC8979432F691FC200CCF9FB /* DyLibTest.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ACB979532F66FA4C0051339D /* CLITest */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AC89796A2F6921DC00CCF9FB /* libDyLibTest.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libDyLibTest.dylib;
+			remoteRef = AC8979692F6921DC00CCF9FB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ACB979502F66FA4C0051339D /* Sources */ = {
@@ -124,6 +186,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC8979672F6921DC00CCF9FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DyLibTest;
+			targetProxy = AC8979662F6921DC00CCF9FB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		ACB979592F66FA4C0051339D /* Debug */ = {
@@ -245,6 +315,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../DyLibTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -253,6 +324,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../DyLibTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
